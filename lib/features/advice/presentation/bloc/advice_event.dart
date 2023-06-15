@@ -6,3 +6,5 @@ abstract class AdviceEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class RequestAdviceEvent extends AdviceEvent {}

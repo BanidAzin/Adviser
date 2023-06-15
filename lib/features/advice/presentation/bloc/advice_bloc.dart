@@ -6,8 +6,16 @@ part 'advice_state.dart';
 
 class AdviceBloc extends Bloc<AdviceEvent, AdviceState> {
   AdviceBloc() : super(AdviceInitial()) {
-    on<AdviceEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<RequestAdviceEvent>(_onRequestAdviceEvent);
+  }
+
+  Future<void> _onRequestAdviceEvent(
+      RequestAdviceEvent event, Emitter<AdviceState> emit) async {
+    emit(AdviceLoading());
+    await Future.delayed(
+      const Duration(seconds: 5),
+    );
+    emit(const AdviceLoaded(advice: 'Some test advices'));
+    // TODO: emit(const AdviceError(message: 'Something went wrong'));
   }
 }

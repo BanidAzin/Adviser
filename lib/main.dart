@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      home: const AdvicePage(),
+      home: const AdvicePageProvider(),
     );
   }
 }

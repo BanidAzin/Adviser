@@ -1,6 +1,19 @@
 import 'package:advicer/core/core.dart';
 import 'package:advicer/features/advice/advice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class AdvicePageProvider extends StatelessWidget {
+  const AdvicePageProvider({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AdviceBloc(),
+      child: const AdvicePage(),
+    );
+  }
+}
 
 class AdvicePage extends StatelessWidget {
   const AdvicePage({super.key});
@@ -19,17 +32,33 @@ class AdvicePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              const Expanded(
-                child: AdviceFiled(advice: 'Custom Advice from your senior'),
-                // child: ErrorField(error: 'This a custom error to core'),
-                // child: Center(
-                //   child: CircularProgressIndicator.adaptive(),
-                // ),
-                // Text('Your advice is waiting for you...'),
+              Expanded(
+                child: BlocBuilder<AdviceBloc, AdviceState>(
+                  builder: (context, state) {
+                    if (state is AdviceInitial) {
+                      return const Center(
+                        child: Text('Your advice is waiting for you...'),
+                      );
+                    } else if (state is AdviceLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    } else if (state is AdviceLoaded) {
+                      return AdviceFiled(
+                        advice: state.advice,
+                      );
+                    } else if (state is AdviceError) {
+                      return ErrorField(error: state.message);
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => BlocProvider.of<AdviceBloc>(context)
+                    .add(RequestAdviceEvent()),
                 child: const Text('Get Advice'),
               ),
               const Spacer(),
