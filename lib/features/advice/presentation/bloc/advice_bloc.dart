@@ -8,9 +8,9 @@ part 'advice_event.dart';
 part 'advice_state.dart';
 
 class AdviceBloc extends Bloc<AdviceEvent, AdviceState> {
-  final AdviceUseCase adviceUseCase = AdviceUseCase();
+  final AdviceUseCase adviceUseCase;
 
-  AdviceBloc() : super(AdviceInitial()) {
+  AdviceBloc({required this.adviceUseCase}) : super(AdviceInitial()) {
     on<RequestAdviceEvent>(_onRequestAdviceEvent);
   }
 

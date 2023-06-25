@@ -3,7 +3,9 @@ import 'package:advicer/features/advice/advice.dart';
 import 'package:dartz/dartz.dart';
 
 class AdviceUseCase {
-  final AdviceRepoImpl adviceRepoImp = AdviceRepoImpl();
+  final AdviceRepo adviceRepoImp;
+
+  AdviceUseCase({required this.adviceRepoImp});
 
   Future<Either<Failures, AdviceEntity>> getAdvice() async {
     return await adviceRepoImp.getAdviceFromDataSource();
